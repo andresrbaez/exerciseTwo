@@ -12,16 +12,14 @@ const {
 
 // Middlewares
 const { taskExists } = require('../middlewares/tasks.middlewares');
-const { createTaskValidators } = require('../middlewares/validators.middlewares')
+const {
+  createTaskValidators,
+} = require('../middlewares/validators.middlewares');
 
 const tasksRouter = express.Router();
 
 // Users endpoints
-tasksRouter.post(
-'/', 
-createTaskValidators,
-createTask
-);
+tasksRouter.post('/', createTaskValidators, createTask);
 
 tasksRouter.get('/', getAllTasks);
 

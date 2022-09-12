@@ -46,16 +46,16 @@ const createTaskValidators = [
     .isLength({ min: 3 })
     .withMessage('Title must be at least 3 characters'),
 
-    body('startDate')
-      .isDate()
-      .withMessage('Must be a “YYYY-MM-DD HH:mm:ss” date')
-      .notEmpty()
-      .withMessage('Start date cannot be empty'),
-    body('limitDate')
-      .isDate()
-      .withMessage('Must be a “YYYY-MM-DD HH:mm:ss” date')
-      .notEmpty()
-      .withMessage('Start date cannot be empty')
+  body('startDate')
+    .isDate()
+    .withMessage('Must be a “YYYY-MM-DD HH:mm:ss” date')
+    .notEmpty()
+    .withMessage('Start date cannot be empty'),
+  body('limitDate')
+    .isDate()
+    .withMessage('Must be a “YYYY-MM-DD HH:mm:ss” date')
+    .notEmpty()
+    .withMessage('Limit date cannot be empty'),
 ];
 
 module.exports = { createUserValidators, createTaskValidators };

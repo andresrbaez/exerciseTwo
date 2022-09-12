@@ -7,9 +7,8 @@ const { Task } = require('../models/task.model');
 
 const getAllTasks = async (req, res) => {
   try {
-
     const tasks = await Task.findAll({
-      include: [ { model: User } ],
+      include: [{ model: User }],
     });
 
     res.status(200).json({
@@ -24,7 +23,6 @@ const getAllTasks = async (req, res) => {
 };
 const getStatusTasks = async (req, res) => {
   try {
-
     const { status } = req.params;
 
     const tasks = await Task.findOne({ where: { status } });
@@ -36,20 +34,12 @@ const getStatusTasks = async (req, res) => {
         message: 'Task not found, prove another one',
       });
     }
-
-
-
-      // const tasks = await Task.findAll({
-      //   where: { status: 'active' },
-      // });
-
     res.status(200).json({
       status: 'success',
       data: {
         tasks,
       },
     });
-
   } catch (error) {
     console.log(error);
   }
@@ -66,7 +56,6 @@ const createTask = async (req, res) => {
       limitDate,
     });
 
-
     // 201 -> Success and a resource has been created
     res.status(201).json({
       status: 'success',
@@ -82,18 +71,11 @@ const updateTask = async (req, res) => {
     const { finishDate } = req.body;
     const { task } = req;
 
-    // Method 1
-
-    // Method 2
     await task.update({ finishDate });
-    if (task.limitDate >= task.finishDate ) {
-
+    if (task.limitDate >= task.finishDate) {
       await task.update({ status: 'completed' });
-      
     } else if (task.limitDate < task.finishDate) {
-      
       await task.update({ status: 'late' });
-
     }
 
     res.status(200).json({
@@ -123,5 +105,5 @@ module.exports = {
   createTask,
   updateTask,
   deleteTask,
-  getStatusTasks
+  getStatusTasks,
 };
