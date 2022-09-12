@@ -7,27 +7,28 @@ const {
   createTask,
   updateTask,
   deleteTask,
+  getStatusTasks,
 } = require('../controllers/tasks.controller');
 
 // Middlewares
 const { taskExists } = require('../middlewares/tasks.middlewares');
 const { createTaskValidators } = require('../middlewares/validators.middlewares')
 
-const usersRouter = express.Router();
+const tasksRouter = express.Router();
 
 // Users endpoints
-usersRouter.post(
+tasksRouter.post(
 '/', 
 createTaskValidators,
 createTask
 );
 
-usersRouter.get('/', getAllTasks);
+tasksRouter.get('/', getAllTasks);
 
-usersRouter.get('/:status', getAllTasks);
+tasksRouter.get('/:status', getStatusTasks);
 
-usersRouter.patch('/:id', taskExists, updateTask);
+tasksRouter.patch('/:id', taskExists, updateTask);
 
-usersRouter.delete('/:id', taskExists, deleteTask);
+tasksRouter.delete('/:id', taskExists, deleteTask);
 
 module.exports = { tasksRouter };

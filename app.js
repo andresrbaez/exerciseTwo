@@ -2,7 +2,7 @@ const express = require('express');
 
 // Routers
 const { usersRouter } = require('./routes/users.routes')
-const { tasksRouter } = require('./routes/post.routes')
+const { tasksRouter } = require('./routes/tasks.routes')
 
 // Init our Express app
 const app = express();

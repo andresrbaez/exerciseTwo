@@ -26,12 +26,7 @@ const Task = db.define('task', {
   },
   finishDate: {
     type: DataTypes.DATE,
-    allowNull: false,
-  },
-  role: {
-    type: DataTypes.STRING,
-    defaultValue: 'normal',
-    allowNull: false,
+    allowNull: true,
   },
   status: {
     type: DataTypes.STRING,
