@@ -7,13 +7,8 @@ const { Task } = require('../models/task.model');
 
 const getAllTasks = async (req, res) => {
   try {
-    // Include all the post that the user has created
-    // Include the comments of the user's posts
-    // Include the author of each comment
-    // Include all the comments that the user has created
 
     const tasks = await Task.findAll({
-      where: { status: 'active' },
       include: [ { model: User } ],
     });
 
@@ -29,9 +24,24 @@ const getAllTasks = async (req, res) => {
 };
 const getStatusTasks = async (req, res) => {
   try {
-    const tasks = await Task.findAll({
-      where: { status: 'active' },
-    });
+
+    const { status } = req.params;
+
+    const tasks = await Task.findOne({ where: { status } });
+
+    //  If registration doesn't exist, send error message
+    if (!tasks) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'Task not found, prove another one',
+      });
+    }
+
+
+
+      // const tasks = await Task.findAll({
+      //   where: { status: 'active' },
+      // });
 
     res.status(200).json({
       status: 'success',
@@ -39,6 +49,7 @@ const getStatusTasks = async (req, res) => {
         tasks,
       },
     });
+
   } catch (error) {
     console.log(error);
   }
@@ -52,7 +63,7 @@ const createTask = async (req, res) => {
       title,
       userId,
       startDate,
-      limitDate
+      limitDate,
     });
 
 
@@ -75,6 +86,15 @@ const updateTask = async (req, res) => {
 
     // Method 2
     await task.update({ finishDate });
+    if (task.limitDate >= task.finishDate ) {
+
+      await task.update({ status: 'completed' });
+      
+    } else if (task.limitDate < task.finishDate) {
+      
+      await task.update({ status: 'late' });
+
+    }
 
     res.status(200).json({
       status: 'success',
