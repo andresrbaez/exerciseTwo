@@ -24,16 +24,24 @@ const getAllTasks = async (req, res) => {
 const getStatusTasks = async (req, res) => {
   try {
     const { status } = req.params;
+    const stats = ['active', 'late', 'complited', 'cancelled'];
 
-    const tasks = await Task.findOne({ where: { status } });
+    const tasks = await Task.findAll({ where: { status } });
 
-    //  If registration doesn't exist, send error message
-    if (!tasks) {
-      return res.status(404).json({
-        status: 'error',
-        message: 'Task not found, prove another one',
-      });
+    for (const i=0; i > stats.length; i++) {
+      if(status !== stats[i]) {
+        tasks;
+      } else {
+        //  If task doesn't exist, send error message
+        if (!tasks) {
+          return res.status(404).json({
+            status: 'error',
+            message: 'Task not found, prove another one',
+          });
+        }
+      }
     }
+
     res.status(200).json({
       status: 'success',
       data: {
@@ -73,9 +81,13 @@ const updateTask = async (req, res) => {
 
     await task.update({ finishDate });
     if (task.limitDate >= task.finishDate) {
+
       await task.update({ status: 'completed' });
+
     } else if (task.limitDate < task.finishDate) {
+
       await task.update({ status: 'late' });
+      
     }
 
     res.status(200).json({
